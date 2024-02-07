@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "gShNOC8emVGMt0zPx8H7xSTnkB/ABJqEoIMMTOs0h1o=",
+  "Source": "api-leilao",
+  "BasePath": "_content/api-leilao",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
