@@ -1,6 +1,11 @@
+using api_leilao.Contracts;
 using api_leilao.Filters;
+using api_leilao.Repositories;
+using api_leilao.Repositories.DataAcess;
 using api_leilao.Services;
+using api_leilao.UseCases.Leiloes.GetCurrent;
 using api_leilao.UseCases.Offers.CreateOffer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,7 +48,18 @@ builder.Services.AddSwaggerGen(options =>{
 builder.Services.AddScoped < AuthenticationUserAttribute>();
 builder.Services.AddScoped < LoggedUser>();
 builder.Services.AddScoped < CreateOfferUseCase>();
+builder.Services.AddScoped <GetCurrentLeiloesUseCase>();
+builder.Services.AddScoped <IAuctionRepository, AuctionRepository>();
+builder.Services.AddScoped <IOfferRepository, OfferRepository>();
+builder.Services.AddScoped <IUserRepository, UserRepository>();
+
+builder.Services.AddDbContext<AuctionDbContext>(options =>
+{
+    options.UseSqlite("Data Source=C:\\Users\\andre\\Downloads\\leilaoDbNLW.db");
+});
 builder.Services.AddHttpContextAccessor();
+
+
 
 var app = builder.Build();
 
