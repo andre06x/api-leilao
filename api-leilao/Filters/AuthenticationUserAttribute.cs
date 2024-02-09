@@ -1,22 +1,23 @@
-﻿using api_leilao.Repositories;
+﻿using api_leilao.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Net;
 
 namespace api_leilao.Filters
 {
     public class AuthenticationUserAttribute: AuthorizeAttribute, IAuthorizationFilter
     {
+        private IUserRepository _repository;
+
+        public AuthenticationUserAttribute(IUserRepository repository) => _repository = repository;
         public void OnAuthorization(AuthorizationFilterContext context)
         {
 
                 var token = TokenOnRequest(context.HttpContext);
 
-                var repository = new AuctionDbContext();
                 var email = FromBase64String(token);
 
-                var exist = repository.Users.Any(user => user.Email.Equals(email));
+            var exist = _repository.ExistUserWithEmail(email);
                 if (exist == false)
                 {
                     context.Result = new UnauthorizedObjectResult("Email not valid");
